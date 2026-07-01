@@ -13,6 +13,8 @@ export default function OfferSummary({ computed: c }: Props) {
       <Card label="Total Comp USD" value={`$${fmt(c.offerTotalCompUsd / 1000)}`} unit="" delta={c.dComp} />
       <Card label="Net / tháng" value={`${fmt(c.offerNetMonthly)}k`} unit="₫" delta={c.dNetMonthly} />
       <Card label="Est. Điểm TA" value={c.estimatedPoints.toFixed(4)} unit="pts" delta={null} />
+      <Card label="Current Total Comp" value={`${fmt(c.curTotalComp)}k`} unit="₫" delta={null} />
+      <Card label="Keep Rate" value={`${(c.keepRate * 100).toFixed(1)}%`} unit="" delta={null} />
       {c.payCom > 0 && (
         <Card
           label="Pay COM (sau thử việc)"

@@ -7,6 +7,7 @@ export interface OfferInputs {
   coe: CoE
   source: Source
   startDate: string
+  referralName?: string
   grossNew: number
   vnGross: number
   allowance: number

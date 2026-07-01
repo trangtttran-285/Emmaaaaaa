@@ -79,6 +79,21 @@ export default function OfferForm({ inputs, onChange }: Props) {
           <input {...num('allowance')} />
         </div>
         <div>
+          <label className="text-xs font-medium text-gray-500 mb-1 block">Monthly Bonus (VNĐ)</label>
+          <input {...num('monthlyBonus')} />
+        </div>
+        {(inputs.source === 'Employee Referral (Passive)' || inputs.source === 'Employee Referral (Active)') && (
+          <div className="col-span-2">
+            <label className="text-xs font-medium text-gray-500 mb-1 block">Referral Name</label>
+            <input
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={inputs.referralName ?? ''}
+              onChange={e => set('referralName', e.target.value)}
+              placeholder="Nguyen Van B"
+            />
+          </div>
+        )}
+        <div>
           <label className="text-xs font-medium text-gray-500 mb-1 block">Current Gross (k₫)</label>
           <input {...num('curGross')} />
         </div>

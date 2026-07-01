@@ -12,7 +12,7 @@ export default function OfferStudioPage() {
   const c = compute(inputs)
 
   async function save() {
-    if (!inputs.candidateName || !inputs.startDate) return
+    if (!inputs.candidateName || !inputs.startDate || !inputs.position) return
     setSaving(true)
     const res = await fetch('/api/offers', {
       method: 'POST',
@@ -30,6 +30,7 @@ export default function OfferStudioPage() {
         vnGross: inputs.vnGross,
         allowance: inputs.allowance,
         monthlyBonus: inputs.monthlyBonus,
+        referralName: inputs.referralName,
       }),
     })
     setSaving(false)
@@ -51,7 +52,7 @@ export default function OfferStudioPage() {
         <button
           className="bg-gray-900 text-white rounded-lg px-5 py-2.5 text-sm font-semibold hover:bg-gray-700 disabled:opacity-50 transition-colors"
           onClick={save}
-          disabled={saving || !inputs.candidateName || !inputs.startDate}
+          disabled={saving || !inputs.candidateName || !inputs.startDate || !inputs.position}
         >
           {saving ? 'Đang lưu...' : 'Lưu offer'}
         </button>
