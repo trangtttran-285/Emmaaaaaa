@@ -35,14 +35,27 @@ export default function RecordsTable({ offers, role, onUpdate }: Props) {
           <thead className="bg-gray-50 text-gray-400 font-semibold uppercase tracking-wide">
             <tr>
               {['No','TA','Candidate','Position','Level','CoE','Start','Status',
-                'Source','Referral','Remarks','C&B','Pay?','Person','End Prob',
-                'Elig. Month','1st Pay','Src Inhouse','Type','Commission',
-                'CO','Ref 6M','2nd Pay','Points','Channel','Actions'
+                'Source','Referral','Remarks','Person','End Prob',
+                'Elig. Month','1st Pay','Src Inhouse','Type',
+                'Ref 6M','2nd Pay','Points','Channel'
               ].map(h => (
                 <th key={h} className="px-2.5 py-2 text-left border-b border-gray-200 whitespace-nowrap">
                   {h}
                 </th>
               ))}
+              {role !== 'Viewer' && (
+                <th className="px-2.5 py-2 text-left border-b border-gray-200 whitespace-nowrap">C&amp;B</th>
+              )}
+              {role !== 'Viewer' && (
+                <th className="px-2.5 py-2 text-left border-b border-gray-200 whitespace-nowrap">Pay?</th>
+              )}
+              {role !== 'Viewer' && (
+                <th className="px-2.5 py-2 text-left border-b border-gray-200 whitespace-nowrap">Commission</th>
+              )}
+              {role !== 'Viewer' && (
+                <th className="px-2.5 py-2 text-left border-b border-gray-200 whitespace-nowrap">CO</th>
+              )}
+              <th className="px-2.5 py-2 text-left border-b border-gray-200 whitespace-nowrap">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -63,16 +76,16 @@ export default function RecordsTable({ offers, role, onUpdate }: Props) {
                 <td className="px-2.5 py-2 whitespace-nowrap">{o.source}</td>
                 <td className="px-2.5 py-2">{o.referralName}</td>
                 <td className="px-2.5 py-2 max-w-[100px] truncate" title={o.remarks}>{o.remarks}</td>
-                <td className="px-2.5 py-2">{o.cnbCheck}</td>
-                <td className="px-2.5 py-2 text-center">{o.toPayCom ? '✓' : ''}</td>
+                {role !== 'Viewer' && <td className="px-2.5 py-2">{o.cnbCheck}</td>}
+                {role !== 'Viewer' && <td className="px-2.5 py-2 text-center">{o.toPayCom ? '✓' : ''}</td>}
                 <td className="px-2.5 py-2">{o.personToPayCom}</td>
                 <td className="px-2.5 py-2 font-mono">{o.endProbationDate}</td>
                 <td className="px-2.5 py-2 font-mono">{o.eligibleCommissionMonth}</td>
                 <td className="px-2.5 py-2">{o.firstPaymentStatus}</td>
                 <td className="px-2.5 py-2">{o.sourceInhouse}</td>
                 <td className="px-2.5 py-2">{o.type}</td>
-                <td className="px-2.5 py-2 font-mono text-right">{fmtVnd(o.commission)}</td>
-                <td className="px-2.5 py-2">{o.co}</td>
+                {role !== 'Viewer' && <td className="px-2.5 py-2 font-mono text-right">{fmtVnd(o.commission)}</td>}
+                {role !== 'Viewer' && <td className="px-2.5 py-2">{o.co}</td>}
                 <td className="px-2.5 py-2">{o.eligibleReferral6M}</td>
                 <td className="px-2.5 py-2">{o.secondPaymentStatus}</td>
                 <td className="px-2.5 py-2 font-mono text-right">{o.point?.toFixed(4)}</td>
@@ -95,7 +108,7 @@ export default function RecordsTable({ offers, role, onUpdate }: Props) {
             ))}
             {offers.length === 0 && (
               <tr>
-                <td colSpan={26} className="px-4 py-8 text-center text-gray-400">
+                <td colSpan={role !== 'Viewer' ? 26 : 22} className="px-4 py-8 text-center text-gray-400">
                   Chưa có offer nào. Sang Offer Studio để tạo.
                 </td>
               </tr>

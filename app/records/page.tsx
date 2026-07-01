@@ -20,11 +20,15 @@ export default function RecordsPage() {
   }, [])
 
   async function handleUpdate(id: string, data: Partial<OfferRecord>) {
-    await fetch('/api/offers', {
+    const res = await fetch('/api/offers', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id, ...data }),
     })
+    if (!res.ok) {
+      alert('Cập nhật thất bại. Vui lòng thử lại.')
+      return
+    }
     setOffers(prev => prev.map(o => o.id === id ? { ...o, ...data } : o))
   }
 
