@@ -9,10 +9,7 @@ export async function GET() {
   const taEmail = role === 'TA' ? session.user.email! : undefined
   const offers = await getOffers(taEmail)
   if (role === 'Viewer') {
-    return NextResponse.json(offers.map(o => ({
-      ...o, grossNew: undefined, vnGross: undefined,
-      allowance: undefined, monthlyBonus: undefined,
-    })))
+    return NextResponse.json(offers.map(({ grossNew, vnGross, allowance, monthlyBonus, ...safe }) => safe))
   }
   return NextResponse.json(offers)
 }
@@ -31,10 +28,21 @@ export async function POST(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
   const session = await auth()
   if (!session?.user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  if ((session.user as any).role === 'Viewer') {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
-  }
+  const role = (session.user as any).role as string
+  if (role === 'Viewer') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+
   const { id, ...data } = await req.json()
+
+  // TA can only update their own records
+  if (role === 'TA') {
+    const all = await getOffers()
+    const offer = all.find(o => o.id === id)
+    if (!offer) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+    if (offer.ta !== session.user.email) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    }
+  }
+
   await updateOffer(id, data)
   return NextResponse.json({ ok: true })
 }
