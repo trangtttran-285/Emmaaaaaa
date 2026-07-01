@@ -1,5 +1,5 @@
 import { auth } from '@/lib/auth'
-import { getPolicyDocs } from '@/lib/drive'
+import { getPolicyDocs, syncPolicyDocs } from '@/lib/drive'
 import { NextResponse } from 'next/server'
 import type { PolicyDoc } from '@/types'
 
@@ -15,6 +15,18 @@ export async function GET() {
   }
 
   const docs = await getPolicyDocs()
+  cache = { docs, at: Date.now() }
+  return NextResponse.json(docs)
+}
+
+export async function POST() {
+  const session = await auth()
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const role = (session.user as any).role
+  if (role !== 'Admin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  // Force re-sync: bypass both in-memory and Sheets cache
+  cache = null
+  const docs = await syncPolicyDocs()
   cache = { docs, at: Date.now() }
   return NextResponse.json(docs)
 }

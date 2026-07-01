@@ -8,10 +8,15 @@ export default function PolicyPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('/api/policy').then(r => r.json()).then(d => {
+    async function loadDocs() {
+      const res = await fetch('/api/policy')
+      if (!res.ok) { setDocs([]); setLoading(false); return }
+      const d = await res.json()
+      if (!Array.isArray(d)) { setDocs([]); setLoading(false); return }
       setDocs(d)
       setLoading(false)
-    })
+    }
+    loadDocs()
   }, [])
 
   return (
