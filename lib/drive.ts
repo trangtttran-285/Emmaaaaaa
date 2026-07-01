@@ -93,7 +93,7 @@ async function getStoredDocs(): Promise<PolicyDoc[]> {
   }
 }
 
-async function storeDocs(docs: PolicyDoc[]): Promise<void> {
+export async function storeDocs(docs: PolicyDoc[]): Promise<void> {
   try {
     const sheets = getSheetsClient()
     // Clear existing data

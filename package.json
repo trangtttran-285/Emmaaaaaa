@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "jest"
   },
   "dependencies": {
     "googleapis": "^173.0.0",
@@ -20,7 +21,6 @@
     "@tailwindcss/postcss": "^4",
     "@types/jest": "^30.0.0",
     "@types/node": "^20",
-    "@types/pdf-parse": "^1.1.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "jest": "^30.4.2",

@@ -35,9 +35,7 @@ export default function RecordsTable({ offers, role, onUpdate }: Props) {
           <thead className="bg-gray-50 text-gray-400 font-semibold uppercase tracking-wide">
             <tr>
               {['No','TA','Candidate','Position','Level','CoE','Start','Status',
-                'Source','Referral','Remarks','Person','End Prob',
-                'Elig. Month','1st Pay','Src Inhouse','Type',
-                'Ref 6M','2nd Pay','Points','Channel'
+                'Source','Referral','Remarks',
               ].map(h => (
                 <th key={h} className="px-2.5 py-2 text-left border-b border-gray-200 whitespace-nowrap">
                   {h}
@@ -49,12 +47,24 @@ export default function RecordsTable({ offers, role, onUpdate }: Props) {
               {role !== 'Viewer' && (
                 <th className="px-2.5 py-2 text-left border-b border-gray-200 whitespace-nowrap">Pay?</th>
               )}
+              {['Person','End Prob','Elig. Month','1st Pay','Src Inhouse','Type',
+              ].map(h => (
+                <th key={h} className="px-2.5 py-2 text-left border-b border-gray-200 whitespace-nowrap">
+                  {h}
+                </th>
+              ))}
               {role !== 'Viewer' && (
                 <th className="px-2.5 py-2 text-left border-b border-gray-200 whitespace-nowrap">Commission</th>
               )}
               {role !== 'Viewer' && (
                 <th className="px-2.5 py-2 text-left border-b border-gray-200 whitespace-nowrap">CO</th>
               )}
+              {['Ref 6M','2nd Pay','Points','Channel',
+              ].map(h => (
+                <th key={h} className="px-2.5 py-2 text-left border-b border-gray-200 whitespace-nowrap">
+                  {h}
+                </th>
+              ))}
               <th className="px-2.5 py-2 text-left border-b border-gray-200 whitespace-nowrap">Actions</th>
             </tr>
           </thead>
