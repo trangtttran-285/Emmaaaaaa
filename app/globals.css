@@ -24,3 +24,10 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.policy-snippet mark {
+  background-color: #fef08a; /* yellow-200 */
+  color: #1c1917;            /* stone-900 — dark on yellow, never gray */
+  border-radius: 0.2em;
+  font-style: normal;
+}
