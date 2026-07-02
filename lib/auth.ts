@@ -2,7 +2,6 @@ import NextAuth from 'next-auth'
 import Google from 'next-auth/providers/google'
 import type { Role } from '@/types'
 
-// Forward declaration — sheets.ts imports auth.ts so we lazy-import to avoid circular dep
 async function getRoleForEmail(email: string): Promise<Role> {
   const { getConfig } = await import('./sheets')
   const config = await getConfig()
