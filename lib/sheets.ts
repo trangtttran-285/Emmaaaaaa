@@ -17,18 +17,14 @@ const C = {
 } as const
 
 function getSheetsClient() {
-  const auth = new google.auth.GoogleAuth({
-    credentials: {
-      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-      private_key: Buffer.from(
-        process.env.GOOGLE_SERVICE_ACCOUNT_KEY!,
-        'base64'
-      ).toString('utf-8'),
-    },
-    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-  })
-  return google.sheets({ version: 'v4', auth })
+  const oauth2 = new google.auth.OAuth2(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET
+  )
+  oauth2.setCredentials({ refresh_token: process.env.GOOGLE_REFRESH_TOKEN })
+  return google.sheets({ version: 'v4', auth: oauth2 })
 }
+
 
 export function rowToOffer(id: string, row: string[]): OfferRecord {
   const g = (i: number) => row[i] ?? ''
