@@ -1,5 +1,7 @@
-import { auth } from '@/lib/auth'
-import { NextResponse } from 'next/server'
+import NextAuth from 'next-auth'
+import { authConfig } from '@/lib/auth.config'
+
+const { auth } = NextAuth(authConfig)
 
 export default auth((req) => {
   const isLoggedIn = !!req.auth
@@ -8,10 +10,10 @@ export default auth((req) => {
 
   if (isApi) return
   if (!isLoggedIn && !isLoginPage) {
-    return NextResponse.redirect(new URL('/auth/login', req.url))
+    return Response.redirect(new URL('/auth/login', req.url))
   }
   if (isLoggedIn && isLoginPage) {
-    return NextResponse.redirect(new URL('/records', req.url))
+    return Response.redirect(new URL('/records', req.url))
   }
 })
 
